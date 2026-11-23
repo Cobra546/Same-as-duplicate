@@ -6,147 +6,166 @@
   <meta name="theme-color" content="#152127">
   <title>Log in</title>
   <style>
-    :root {
-      color-scheme: dark;
-      --background: #152127;
-      --field: #182126;
-      --border: #465057;
-      --muted: #aab0b5;
-      --text: #f3f5f7;
-      --blue: #0866df;
-      --blue-light: #5ba4ff;
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; }
-    body {
-      min-height: 100vh;
-      min-height: 100svh;
-      background: var(--background);
-      color: var(--text);
-      font-family: Roboto, "Segoe UI", Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    .page {
-      width: min(100%, 720px);
-      min-height: 100vh;
-      min-height: 100svh;
-      margin: 0 auto;
-      padding: max(24px, env(safe-area-inset-top)) 28px max(26px, env(safe-area-inset-bottom));
-      display: flex;
-      flex-direction: column;
-    }
-    .top-placeholder { height: 31vh; min-height: 190px; max-height: 360px; flex: 0 0 auto; position: relative; }
-    .top-image-holder { width: 88px; height: 88px; position: absolute; top: 58%; left: 50%; transform: translate(-50%, -50%); background: transparent; }
-    .login-form { display: flex; flex-direction: column; gap: 12px; }
-    .field {
-      width: 100%;
-      height: 52px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--field);
-      color: var(--text);
-      padding: 0 14px;
-      font: inherit;
-      font-size: 15px;
-      font-weight: 600;
-      outline: none;
-      transition: border-color .18s ease, box-shadow .18s ease;
-    }
-    .field::placeholder { color: var(--muted); opacity: 1; }
-    .field:focus { border-color: var(--blue-light); box-shadow: 0 0 0 3px #5ba4ff20; }
-    .login-button {
-      height: 50px;
-      width: 100%;
-      border: 0;
-      border-radius: 999px;
-      background: var(--blue);
-      color: white;
-      font: inherit;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: filter .15s ease, transform .15s ease;
-    }
-    .login-button:active, .create-button:active { transform: scale(.99); }
-    .login-button:hover { filter: brightness(1.08); }
-    .forgot {
-      align-self: center;
-      margin-top: 4px;
-      color: var(--text);
-      text-decoration: none;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-    .forgot:hover { text-decoration: underline; }
-    .bottom-area { margin-top: auto; padding-top: 32px; }
-    .create-button {
-      min-height: 48px;
-      width: 100%;
-      border: 2px solid #559cff;
-      border-radius: 999px;
-      background: transparent;
-      color: var(--blue-light);
-      font: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background .15s ease, transform .15s ease;
-    }
-    .create-button:hover { background: #559cff12; }
-    /* Image slot sized to match the small Meta mark in the reference screenshot. */
-    .bottom-image-holder {
-      width: 120px;
-      height: 32px;
-      margin: 16px auto 0;
-      background: transparent;
-    }
-    button:focus-visible, a:focus-visible { outline: 3px solid var(--blue-light); outline-offset: 4px; }
-    @media (max-height: 760px) {
-      .top-placeholder { height: 27vh; min-height: 150px; }
-      .field { height: 50px; border-radius: 8px; }
-      .login-form { gap: 10px; }
-      .login-button { height: 48px; }
-      .bottom-area { padding-top: 28px; }
-      .create-button { min-height: 46px; }
-      .bottom-image-holder { height: 32px; margin-top: 16px; }
-    }
-    @media (max-width: 380px) {
-      .page { padding-left: 20px; padding-right: 20px; }
-      .field { padding: 0 21px; }
-    }
+    :root{color-scheme:dark;--bg:#152127;--field:#182126;--border:#465057;--muted:#aab0b5;--text:#f3f5f7;--blue:#0866df;--blue-light:#5ba4ff}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%}
+    body{min-height:100vh;min-height:100svh;background:var(--bg);color:var(--text);font-family:Roboto,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+    .page{width:min(100%,720px);min-height:100vh;min-height:100svh;margin:0 auto;padding:max(24px,env(safe-area-inset-top)) 28px max(26px,env(safe-area-inset-bottom));display:flex;flex-direction:column}
+    .top-placeholder{height:31vh;min-height:190px;max-height:360px;flex:0 0 auto;position:relative}
+    .top-image-holder{width:88px;height:88px;position:absolute;top:58%;left:50%;transform:translate(-50%,-50%);object-fit:contain}
+    .login-form{display:flex;flex-direction:column;gap:12px}
+    .field{width:100%;height:52px;border:1px solid var(--border);border-radius:8px;background:var(--field);color:var(--text);padding:0 14px;font:inherit;font-size:15px;font-weight:600;outline:none;transition:border-color .18s,box-shadow .18s}
+    .field::placeholder{color:var(--muted);opacity:1}.field:focus{border-color:var(--blue-light);box-shadow:0 0 0 3px #5ba4ff20}
+    .login-button{height:50px;width:100%;border:0;border-radius:999px;background:var(--blue);color:white;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
+    .login-button:disabled{opacity:.7;cursor:wait}
+    .forgot{align-self:center;margin-top:4px;color:var(--text);text-decoration:none;font-size:14px;line-height:1.4}
+    .forgot:hover{text-decoration:underline}
+    .bottom-area{margin-top:auto;padding-top:32px}
+    .create-button{min-height:48px;width:100%;border:2px solid #559cff;border-radius:999px;background:transparent;color:var(--blue-light);font:inherit;font-size:15px;font-weight:700;cursor:pointer}
+    .create-button:hover{background:#559cff12}
+    .bottom-image-holder{display:block;width:120px;height:32px;object-fit:contain;margin:16px auto 0}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);width:max-content;max-width:calc(100% - 36px);padding:12px 16px;border-radius:10px;background:#26343b;color:#fff;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.2s;box-shadow:0 8px 28px #0005;text-align:center;z-index:5}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    .mode-note{text-align:center;color:var(--muted);font-size:12px;line-height:1.5;margin:2px 0 0}
+    button:focus-visible,a:focus-visible{outline:3px solid var(--blue-light);outline-offset:4px}
+    @media(max-height:760px){.top-placeholder{height:27vh;min-height:150px}.field{height:50px}.login-form{gap:10px}.login-button{height:48px}.bottom-area{padding-top:28px}.create-button{min-height:46px}}
+    @media(max-width:380px){.page{padding-left:20px;padding-right:20px}}
   </style>
 </head>
 <body>
   <main class="page">
-    <div class="top-placeholder"><div class="top-image-holder" aria-label="Reserved top logo image holder"></div></div>
+    <div class="top-placeholder">
+      <img class="top-image-holder" src="3HKZyjLmk4x.webp" alt="Instagram">
+    </div>
 
-    <form class="login-form" id="loginForm">
-      <input class="field" id="identity" name="identity" type="text"
-        placeholder="Username, email or mobile number" autocomplete="username"
-        aria-label="Username, email or mobile number" required>
-      <input class="field" id="displayName" name="displayName" type="text"
-        placeholder="Display name" autocomplete="nickname"
-        aria-label="Display name" required>
-      <button class="login-button" type="submit">Log in</button>
+    <form class="login-form" id="authForm">
+      <input class="field" id="email" name="email" type="email" placeholder="Email address" autocomplete="email" aria-label="Email address" required>
+      <input class="field" id="displayName" name="displayName" type="text" placeholder="Display name" autocomplete="nickname" aria-label="Display name" hidden>
+      <input class="field" id="password" name="password" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" minlength="6" required>
+      <button class="login-button" id="submitButton" type="submit">Log in</button>
       <a class="forgot" href="#" id="forgotLink">Forgot password?</a>
+      <p class="mode-note" id="modeNote" hidden>Create your own account to continue.</p>
     </form>
 
     <div class="bottom-area">
-      <button class="create-button" type="button" id="createAccount">Create new account</button>
-      <div class="bottom-image-holder" aria-label="Reserved image holder"></div>
+      <button class="create-button" type="button" id="toggleMode">Create new account</button>
+      <img class="bottom-image-holder" src="InShot_20261123_195930356.jpg" alt="Meta">
     </div>
   </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script>
   <script>
-    // Visual starter only: authentication and account routes can be connected next.
-    document.getElementById('loginForm').addEventListener('submit', function (event) {
+    const SUPABASE_URL = 'https://antqqabimhgepykkkmwl.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_w6n4kCXq8cJoyd-8PE0HoQ_YBPYoI_7';
+    const ADMIN_EMAIL = 'usmantabish26@gmail.com';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    const form = document.getElementById('authForm');
+    const emailInput = document.getElementById('email');
+    const nameInput = document.getElementById('displayName');
+    const passwordInput = document.getElementById('password');
+    const submitButton = document.getElementById('submitButton');
+    const toggleMode = document.getElementById('toggleMode');
+    const forgotLink = document.getElementById('forgotLink');
+    const modeNote = document.getElementById('modeNote');
+    const toast = document.getElementById('toast');
+    let isSignUp = false;
+    let toastTimer;
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    function setMode(signUp) {
+      isSignUp = signUp;
+      nameInput.hidden = !signUp;
+      nameInput.required = signUp;
+      submitButton.textContent = signUp ? 'Create account' : 'Log in';
+      toggleMode.textContent = signUp ? 'Already have an account? Log in' : 'Create new account';
+      forgotLink.hidden = signUp;
+      modeNote.hidden = !signUp;
+      passwordInput.autocomplete = signUp ? 'new-password' : 'current-password';
+    }
+
+    async function saveProfile(user, displayName) {
+      if (!user) return;
+      const profileName = (displayName || user.user_metadata?.display_name || '').trim();
+      const { error } = await supabase.from('profiles').upsert({
+        id: user.id,
+        email: user.email || null,
+        display_name: profileName
+      }, { onConflict: 'id' });
+      if (error) console.error('Profile sync:', error.message);
+    }
+
+    toggleMode.addEventListener('click', () => setMode(!isSignUp));
+
+    forgotLink.addEventListener('click', async (event) => {
       event.preventDefault();
+      const email = emailInput.value.trim();
+      if (!email) {
+        showToast('Enter your email address first.');
+        emailInput.focus();
+        return;
+      }
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: new URL('index.html', window.location.href).href
+      });
+      showToast(error ? 'Something went wrong. Try again.' : 'If this email has an account, a reset link has been sent.');
     });
-    document.getElementById('forgotLink').addEventListener('click', function (event) {
+
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
+      const email = emailInput.value.trim().toLowerCase();
+      const password = passwordInput.value;
+      submitButton.disabled = true;
+      submitButton.textContent = isSignUp ? 'Creating...' : 'Logging in...';
+
+      try {
+        if (isSignUp) {
+          const displayName = nameInput.value.trim();
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: { data: { display_name: displayName } }
+          });
+          if (error) throw error;
+          if (data.session && data.user) {
+            await saveProfile(data.user, displayName);
+            showToast('Account created successfully.');
+            window.location.href = 'index.html';
+          } else {
+            showToast('Check your email to confirm your account, then log in.');
+            setMode(false);
+          }
+        } else {
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          await saveProfile(data.user);
+          if ((data.user.email || '').toLowerCase() === ADMIN_EMAIL) {
+            window.location.href = 'admin.html';
+          } else {
+            showToast('You are logged in successfully.');
+          }
+        }
+      } catch (error) {
+        console.error('Authentication error:', error.message);
+        showToast('Something went wrong. Check your details and try again.');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = isSignUp ? 'Create account' : 'Log in';
+      }
     });
-    document.getElementById('createAccount').addEventListener('click', function () {
-      // Sign-up screen/route will be added when its flow is specified.
-    });
+
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session?.user?.email?.toLowerCase() === ADMIN_EMAIL) {
+        window.location.href = 'admin.html';
+      }
+    })();
   </script>
 </body>
 </html>
