@@ -70,6 +70,7 @@
     const modeNote = document.getElementById('modeNote');
     const toast = document.getElementById('toast');
     let isSignUp = false;
+    let isRecovery = false;
     let toastTimer;
 
     function showToast(message) {
@@ -81,13 +82,35 @@
 
     function setMode(signUp) {
       isSignUp = signUp;
+      isRecovery = false;
+      emailInput.hidden = false;
+      emailInput.required = true;
       nameInput.hidden = !signUp;
       nameInput.required = signUp;
       submitButton.textContent = signUp ? 'Create account' : 'Log in';
+      toggleMode.hidden = false;
       toggleMode.textContent = signUp ? 'Already have an account? Log in' : 'Create new account';
       forgotLink.hidden = signUp;
       modeNote.hidden = !signUp;
+      passwordInput.placeholder = signUp ? 'Create password' : 'Password';
       passwordInput.autocomplete = signUp ? 'new-password' : 'current-password';
+    }
+
+    function setRecoveryMode() {
+      isRecovery = true;
+      isSignUp = false;
+      emailInput.hidden = true;
+      emailInput.required = false;
+      nameInput.hidden = true;
+      nameInput.required = false;
+      passwordInput.value = '';
+      passwordInput.placeholder = 'New password';
+      passwordInput.autocomplete = 'new-password';
+      submitButton.textContent = 'Update password';
+      toggleMode.hidden = true;
+      forgotLink.hidden = true;
+      modeNote.hidden = false;
+      modeNote.textContent = 'Choose a new password for your account.';
     }
 
     async function saveProfile(user, displayName) {
@@ -125,7 +148,13 @@
       submitButton.textContent = isSignUp ? 'Creating...' : 'Logging in...';
 
       try {
-        if (isSignUp) {
+        if (isRecovery) {
+          const { error } = await supabase.auth.updateUser({ password });
+          if (error) throw error;
+          await supabase.auth.signOut();
+          showToast('Password updated. Log in with your new password.');
+          setMode(false);
+        } else if (isSignUp) {
           const displayName = nameInput.value.trim();
           const { data, error } = await supabase.auth.signUp({
             email,
@@ -156,8 +185,12 @@
         showToast('Something went wrong. Check your details and try again.');
       } finally {
         submitButton.disabled = false;
-        submitButton.textContent = isSignUp ? 'Create account' : 'Log in';
+        if (!isRecovery) submitButton.textContent = isSignUp ? 'Create account' : 'Log in';
       }
+    });
+
+    supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') setRecoveryMode();
     });
 
     (async () => {
