@@ -35,7 +35,6 @@
       display: flex;
       flex-direction: column;
     }
-    /* Reserved space for the top artwork/text the owner will provide later. */
     .top-placeholder { height: 35vh; min-height: 250px; max-height: 520px; flex: 0 0 auto; }
     .login-form { display: flex; flex-direction: column; gap: 22px; }
     .field {
@@ -92,8 +91,14 @@
       transition: background .15s ease, transform .15s ease;
     }
     .create-button:hover { background: #559cff12; }
-    /* Reserved bottom placeholder for the detail that will be supplied later. */
-    .bottom-placeholder { height: 78px; }
+    .bottom-image-holder {
+      width: min(220px, 70%);
+      height: 64px;
+      margin: 12px auto 0;
+      border: 1px dashed #465057;
+      border-radius: 14px;
+      background: transparent;
+    }
     button:focus-visible, a:focus-visible { outline: 3px solid var(--blue-light); outline-offset: 4px; }
     @media (max-height: 760px) {
       .top-placeholder { height: 27vh; min-height: 170px; }
@@ -102,7 +107,7 @@
       .login-button { height: 70px; }
       .bottom-area { padding-top: 42px; }
       .create-button { min-height: 68px; }
-      .bottom-placeholder { height: 42px; }
+      .bottom-image-holder { height: 52px; }
     }
     @media (max-width: 380px) {
       .page { padding-left: 20px; padding-right: 20px; }
@@ -127,7 +132,7 @@
 
     <div class="bottom-area">
       <button class="create-button" type="button" id="createAccount">Create new account</button>
-      <div class="bottom-placeholder" aria-hidden="true"></div>
+      <div class="bottom-image-holder" aria-label="Reserved image holder"></div>
     </div>
   </main>
   <script>
