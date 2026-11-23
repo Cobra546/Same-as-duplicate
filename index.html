@@ -35,33 +35,35 @@
       display: flex;
       flex-direction: column;
     }
-    .top-placeholder { height: 35vh; min-height: 250px; max-height: 520px; flex: 0 0 auto; position: relative; }\n    .top-image-holder { width: 112px; height: 112px; position: absolute; top: 58%; left: 50%; transform: translate(-50%, -50%); background: transparent; }
-    .login-form { display: flex; flex-direction: column; gap: 22px; }
+    .top-placeholder { height: 31vh; min-height: 190px; max-height: 360px; flex: 0 0 auto; position: relative; }
+    .top-image-holder { width: 88px; height: 88px; position: absolute; top: 58%; left: 50%; transform: translate(-50%, -50%); background: transparent; }
+    .login-form { display: flex; flex-direction: column; gap: 12px; }
     .field {
       width: 100%;
-      height: 82px;
-      border: 2px solid var(--border);
-      border-radius: 30px;
+      height: 52px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
       background: var(--field);
       color: var(--text);
-      padding: 0 29px;
+      padding: 0 14px;
       font: inherit;
-      font-size: clamp(18px, 4.5vw, 28px);
+      font-size: 15px;
+      font-weight: 600;
       outline: none;
       transition: border-color .18s ease, box-shadow .18s ease;
     }
     .field::placeholder { color: var(--muted); opacity: 1; }
     .field:focus { border-color: var(--blue-light); box-shadow: 0 0 0 3px #5ba4ff20; }
     .login-button {
-      height: 84px;
+      height: 50px;
       width: 100%;
       border: 0;
       border-radius: 999px;
       background: var(--blue);
       color: white;
       font: inherit;
-      font-size: clamp(20px, 4.8vw, 30px);
-      font-weight: 600;
+      font-size: 16px;
+      font-weight: 700;
       cursor: pointer;
       transition: filter .15s ease, transform .15s ease;
     }
@@ -69,24 +71,24 @@
     .login-button:hover { filter: brightness(1.08); }
     .forgot {
       align-self: center;
-      margin-top: 13px;
+      margin-top: 4px;
       color: var(--text);
       text-decoration: none;
-      font-size: clamp(18px, 4.5vw, 28px);
+      font-size: 14px;
       line-height: 1.4;
     }
     .forgot:hover { text-decoration: underline; }
-    .bottom-area { margin-top: auto; padding-top: 70px; }
+    .bottom-area { margin-top: auto; padding-top: 32px; }
     .create-button {
-      min-height: 82px;
+      min-height: 48px;
       width: 100%;
       border: 2px solid #559cff;
       border-radius: 999px;
       background: transparent;
       color: var(--blue-light);
       font: inherit;
-      font-size: clamp(19px, 4.6vw, 29px);
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
       cursor: pointer;
       transition: background .15s ease, transform .15s ease;
     }
@@ -95,18 +97,18 @@
     .bottom-image-holder {
       width: 120px;
       height: 32px;
-      margin: 28px auto 0;
+      margin: 16px auto 0;
       background: transparent;
     }
     button:focus-visible, a:focus-visible { outline: 3px solid var(--blue-light); outline-offset: 4px; }
     @media (max-height: 760px) {
-      .top-placeholder { height: 27vh; min-height: 170px; }
-      .field { height: 68px; border-radius: 25px; }
-      .login-form { gap: 16px; }
-      .login-button { height: 70px; }
-      .bottom-area { padding-top: 42px; }
-      .create-button { min-height: 68px; }
-      .bottom-image-holder { height: 32px; margin-top: 20px; }
+      .top-placeholder { height: 27vh; min-height: 150px; }
+      .field { height: 50px; border-radius: 8px; }
+      .login-form { gap: 10px; }
+      .login-button { height: 48px; }
+      .bottom-area { padding-top: 28px; }
+      .create-button { min-height: 46px; }
+      .bottom-image-holder { height: 32px; margin-top: 16px; }
     }
     @media (max-width: 380px) {
       .page { padding-left: 20px; padding-right: 20px; }
@@ -122,9 +124,9 @@
       <input class="field" id="identity" name="identity" type="text"
         placeholder="Username, email or mobile number" autocomplete="username"
         aria-label="Username, email or mobile number" required>
-      <input class="field" id="password" name="password" type="password"
-        placeholder="Password" autocomplete="current-password"
-        aria-label="Password" required>
+      <input class="field" id="displayName" name="displayName" type="text"
+        placeholder="Display name" autocomplete="nickname"
+        aria-label="Display name" required>
       <button class="login-button" type="submit">Log in</button>
       <a class="forgot" href="#" id="forgotLink">Forgot password?</a>
     </form>
