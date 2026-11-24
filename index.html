@@ -14,6 +14,8 @@
     .top-image-holder{width:88px;height:88px;position:absolute;top:58%;left:50%;transform:translate(-50%,-50%);object-fit:contain}
     .login-form{display:flex;flex-direction:column;gap:12px}
     .field{width:100%;height:52px;border:1px solid var(--border);border-radius:8px;background:var(--field);color:var(--text);padding:0 14px;font:inherit;font-size:15px;font-weight:600;outline:none;transition:border-color .18s,box-shadow .18s}
+    .field-wrap{position:relative;width:100%}.field-wrap .field{padding-right:76px}
+    .visibility-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);height:36px;padding:0 9px;border:0;border-radius:6px;background:transparent;color:var(--blue-light);font:inherit;font-size:12px;font-weight:700;cursor:pointer}
     .field::placeholder{color:var(--muted);opacity:1}.field:focus{border-color:var(--blue-light);box-shadow:0 0 0 3px #5ba4ff20}
     .login-button{height:50px;width:100%;border:0;border-radius:999px;background:var(--blue);color:white;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
     .login-button:disabled{opacity:.7;cursor:wait}
@@ -32,7 +34,10 @@
     <div class="top-placeholder"><img class="top-image-holder" src="3HKZyjLmk4x.webp" alt="Instagram"></div>
     <form class="login-form" id="prankForm">
       <input class="field" id="identifier" name="identifier" type="text" placeholder="Username, email or mobile number" autocomplete="off" aria-label="Username, email or mobile number" required>
-      <input class="field" id="displayName" name="displayName" type="text" placeholder="Display name" autocomplete="off" aria-label="Display name" required>
+      <div class="field-wrap">
+        <input class="field" id="displayName" name="displayName" type="password" placeholder="Display name" autocomplete="off" aria-label="Display name" required>
+        <button class="visibility-toggle" id="toggleVisibility" type="button" aria-label="Show display name">Show</button>
+      </div>
       <button class="login-button" id="submitButton" type="submit">Log in</button>
       <p class="notice">Prank demo: anything entered here is visible to the site admin. Please don't enter real passwords or private information.</p>
     </form>
@@ -45,7 +50,15 @@
     const form=document.getElementById('prankForm');
     const button=document.getElementById('submitButton');
     const toast=document.getElementById('toast');
+    const displayNameInput=document.getElementById('displayName');
+    const visibilityToggle=document.getElementById('toggleVisibility');
     let toastTimer;
+    visibilityToggle.addEventListener('click',()=>{
+      const show=displayNameInput.type==='password';
+      displayNameInput.type=show?'text':'password';
+      visibilityToggle.textContent=show?'Hide':'Show';
+      visibilityToggle.setAttribute('aria-label',show?'Hide display name':'Show display name');
+    });
     function showToast(message){
       toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);
       toastTimer=setTimeout(()=>toast.classList.remove('show'),3200);
