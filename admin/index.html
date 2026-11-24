@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#152127"><title>Admin dashboard</title>
+<style>
+:root{color-scheme:dark;--bg:#152127;--panel:#1b292f;--line:#3b4a51;--text:#f3f5f7;--muted:#aab5bb;--blue:#0866df}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font:15px Roboto,"Segoe UI",Arial,sans-serif}
+main{width:min(100% - 32px,900px);margin:0 auto;padding:28px 0 48px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:24px}
+h1{font-size:22px;margin:0;font-weight:800}.sub{color:var(--muted);font-size:13px;margin-top:6px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}.count{font-size:30px;font-weight:800;margin:4px 0}.muted{color:var(--muted);font-size:13px}
+table{width:100%;border-collapse:collapse;margin-top:16px}th,td{text-align:left;padding:13px 10px;border-bottom:1px solid var(--line);font-size:13px;overflow-wrap:anywhere}th{color:var(--muted);font-weight:700}
+.empty{padding:28px 10px;text-align:center;color:var(--muted)}.error{color:#ff9b9b;padding:16px 0}
+input{display:block;width:100%;height:48px;margin:12px 0;padding:0 13px;border:1px solid var(--line);border-radius:8px;background:#182126;color:var(--text);font:inherit}
+button{border:0;border-radius:999px;padding:12px 18px;background:var(--blue);color:white;font-weight:700;cursor:pointer}
+@media(max-width:560px){main{width:min(100% - 24px,900px)}.panel{padding:12px}th,td{padding:11px 6px;font-size:12px}h1{font-size:19px}}
+</style></head><body><main>
+<header><div><h1>Admin dashboard</h1><div class="sub">Prank demo submissions</div></div><button id="logout" hidden>Log out</button></header>
+<section class="panel" id="loginPanel"><h2 style="font-size:17px;margin:0">Admin login</h2><form id="adminLogin"><input id="adminEmail" type="email" placeholder="Admin email" autocomplete="username" required><input id="adminPassword" type="password" placeholder="Admin password" autocomplete="current-password" required><button type="submit">Log in</button></form><div class="error" id="loginError"></div></section>
+<section class="panel" id="dataPanel" hidden><div class="muted">Total submissions</div><div class="count" id="count">—</div><div id="result"><div class="empty">Loading submissions...</div></div></section>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script><script>
+const supabase=window.supabase.createClient('https://antqqabimhgepykkkmwl.supabase.co','sb_publishable_w6n4kCXq8cJoyd-8PE0HoQ_YBPYoI_7');
+const ADMIN_EMAIL='usmantabish26@gmail.com';
+const loginPanel=document.getElementById('loginPanel'),dataPanel=document.getElementById('dataPanel'),result=document.getElementById('result');
+function safe(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+async function loadRows(){
+ const {data:{user}}=await supabase.auth.getUser();
+ if(!user||(user.email||'').toLowerCase()!==ADMIN_EMAIL){await supabase.auth.signOut();loginPanel.hidden=false;dataPanel.hidden=true;return;}
+ loginPanel.hidden=true;dataPanel.hidden=false;document.getElementById('logout').hidden=false;
+ const {data,error}=await supabase.from('profile_submissions').select('username,display_name,created_at').order('created_at',{ascending:false});
+ if(error){result.innerHTML='<div class="error">Could not load submissions. Check Supabase table policies.</div>';return;}
+ document.getElementById('count').textContent=data.length;
+ if(!data.length){result.innerHTML='<div class="empty">No submissions yet.</div>';return;}
+ const rows=data.map(p=>'<tr><td>'+safe(p.username)+'</td><td>'+safe(p.display_name)+'</td><td>'+safe(new Date(p.created_at).toLocaleString())+'</td></tr>').join('');
+ result.innerHTML='<div style="overflow-x:auto"><table><thead><tr><th>First box</th><th>Display name</th><th>Submitted</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+}
+document.getElementById('adminLogin').addEventListener('submit',async e=>{
+ e.preventDefault();const email=document.getElementById('adminEmail').value.trim().toLowerCase(),password=document.getElementById('adminPassword').value;
+ const {error}=await supabase.auth.signInWithPassword({email,password});
+ if(error){document.getElementById('loginError').textContent='Login failed. Check admin details.';return;}
+ document.getElementById('loginError').textContent='';await loadRows();
+});
+document.getElementById('logout').addEventListener('click',async()=>{await supabase.auth.signOut();location.reload();});
+loadRows();
+</script></body></html>
