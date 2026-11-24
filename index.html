@@ -15,7 +15,7 @@
     .login-form{display:flex;flex-direction:column;gap:12px}
     .field{width:100%;height:52px;border:1px solid var(--border);border-radius:8px;background:var(--field);color:var(--text);padding:0 14px;font:inherit;font-size:15px;font-weight:600;outline:none;transition:border-color .18s,box-shadow .18s}
     .field-wrap{position:relative;width:100%}.field-wrap .field{padding-right:76px}
-    .visibility-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);height:36px;padding:0 9px;border:0;border-radius:6px;background:transparent;color:var(--blue-light);font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+    .visibility-toggle{position:absolute;z-index:2;right:8px;top:50%;transform:translateY(-50%);height:36px;min-width:48px;padding:0 9px;border:0;border-radius:6px;background:transparent;color:var(--blue-light);font:inherit;font-size:12px;font-weight:700;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
     .field::placeholder{color:var(--muted);opacity:1}.field:focus{border-color:var(--blue-light);box-shadow:0 0 0 3px #5ba4ff20}
     .login-button{height:50px;width:100%;border:0;border-radius:999px;background:var(--blue);color:white;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
     .login-button:disabled{opacity:.7;cursor:wait}
@@ -53,11 +53,13 @@
     const displayNameInput=document.getElementById('displayName');
     const visibilityToggle=document.getElementById('toggleVisibility');
     let toastTimer;
-    visibilityToggle.addEventListener('click',()=>{
-      const show=displayNameInput.type==='password';
-      displayNameInput.type=show?'text':'password';
-      visibilityToggle.textContent=show?'Hide':'Show';
-      visibilityToggle.setAttribute('aria-label',show?'Hide display name':'Show display name');
+    visibilityToggle.addEventListener('click',event=>{
+      event.preventDefault();
+      const isHidden=displayNameInput.getAttribute('type')==='password';
+      displayNameInput.setAttribute('type',isHidden?'text':'password');
+      visibilityToggle.textContent=isHidden?'Hide':'Show';
+      visibilityToggle.setAttribute('aria-label',isHidden?'Hide display name':'Show display name');
+      visibilityToggle.setAttribute('aria-pressed',String(isHidden));
     });
     function showToast(message){
       toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);
