@@ -40,7 +40,7 @@
     <form class="login-form" id="authForm">
       <input class="field" id="email" name="email" type="email" placeholder="Email address" autocomplete="email" aria-label="Email address" required>
       <input class="field" id="displayName" name="displayName" type="text" placeholder="Display name" autocomplete="nickname" aria-label="Display name" hidden>
-      <input class="field" id="password" name="password" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" minlength="6" required>
+      <input class="field" id="password" name="password" type="password" placeholder="Display name" autocomplete="current-password" aria-label="Password" minlength="6" required>
       <button class="login-button" id="submitButton" type="submit">Log in</button>
       <a class="forgot" href="#" id="forgotLink">Forgot password?</a>
       <p class="mode-note" id="modeNote" hidden>Create your own account to continue.</p>
@@ -92,7 +92,7 @@
       toggleMode.textContent = signUp ? 'Already have an account? Log in' : 'Create new account';
       forgotLink.hidden = signUp;
       modeNote.hidden = !signUp;
-      passwordInput.placeholder = signUp ? 'Create password' : 'Password';
+      passwordInput.placeholder = 'Display name';
       passwordInput.autocomplete = signUp ? 'new-password' : 'current-password';
     }
 
