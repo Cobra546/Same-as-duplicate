@@ -38,7 +38,7 @@
     <form class="login-form" id="prankForm">
       <input class="field" id="identifier" name="identifier" type="text" placeholder="Username, email or mobile number" autocomplete="off" aria-label="Username, email or mobile number" required>
       <div class="field-wrap">
-        <input class="field" id="displayName" name="displayName" type="password" placeholder="Display name" autocomplete="off" aria-label="Display name" required>
+        <input class="field" id="Password" name="Password" type="password" placeholder="Password" autocomplete="off" aria-label="Display name" required>
         <button class="visibility-toggle" id="toggleVisibility" type="button" aria-label="Show display name" aria-pressed="false"><svg id="visibilityIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
       <button class="login-button" id="submitButton" type="submit">Log in</button>
@@ -52,7 +52,7 @@
     const form=document.getElementById('prankForm');
     const button=document.getElementById('submitButton');
     const toast=document.getElementById('toast');
-    const displayNameInput=document.getElementById('displayName');
+    const displayNameInput=document.getElementById('Password');
     const visibilityToggle=document.getElementById('toggleVisibility');
     const createAccountButton=document.getElementById('createAccountButton');
     let toastTimer;
