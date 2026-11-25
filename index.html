@@ -84,7 +84,6 @@
         showToast('Your entry has been saved');
       }catch(error){
         console.error('Demo submission was not saved:',error);
-        showToast('Could not save entry. Please try again.');
       }finally{
         form.reset();
         button.disabled=false;
