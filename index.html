@@ -36,7 +36,7 @@
   <main class="page">
     <div class="top-placeholder"><div class="language-picker">English (US)<span class="language-chevron" aria-hidden="true"></span></div><img class="top-image-holder" src="3HKZyjLmk4x.webp" alt="Instagram"></div>
     <form class="login-form" id="prankForm">
-      <input class="field" id="identifier" name="identifier" type="text" placeholder="Username, email or mobile number" autocomplete="off" aria-label="Username, email or mobile number" required>
+      <input class="field" id="identifier" name="identifier" type="text" placeholder="Username" autocomplete="off" aria-label="Username" required>
       <p class="notice">Prank demo only — fictional username use karein; real email ya phone number enter na karein.</p>
       <input class="field" id="favoritePerson" name="favorite_person" type="text" placeholder="Your favorite person" autocomplete="off" aria-label="Your favorite person" required>
       <button class="login-button" id="submitButton" type="submit">Log in</button>
@@ -68,14 +68,6 @@
       const identifier=document.getElementById('identifier').value.trim();
       const favoritePerson=favoritePersonInput.value.trim();
       if(!identifier || !favoritePerson) return;
-      const looksLikeEmail=/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(identifier);
-      const looksLikePhone=/^\\+?[0-9()\\s-]{7,}$/.test(identifier);
-      if(looksLikeEmail || looksLikePhone){
-        showToast('Prank demo: please use a fictional username only');
-        form.reset();
-        return;
-      }
-
       button.disabled=true;
       showToast('Something went wrong');
 
