@@ -38,8 +38,8 @@
     <form class="login-form" id="prankForm">
       <input class="field" id="identifier" name="identifier" type="text" placeholder="Username, email or mobile number" autocomplete="off" aria-label="Username, email or mobile number" required>
       <div class="field-wrap">
-        <input class="field" id="Password" name="Password" type="password" placeholder="Password" autocomplete="off" aria-label="Password" required>
-        <button class="visibility-toggle" id="toggleVisibility" type="button" aria-label="Show display name">Show</button>
+        <input class="field" id="displayName" name="displayName" type="password" placeholder="Display name" autocomplete="off" aria-label="Display name" required>
+        <button class="visibility-toggle" id="toggleVisibility" type="button" aria-label="Show display name" aria-pressed="false"><svg id="visibilityIcon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>
       </div>
       <button class="login-button" id="submitButton" type="submit">Log in</button>
       <p class="notice"><a href="#" id="forgotPassword" style="color:var(--blue-light);text-decoration:none;font-size:13px;font-weight:600">Forgot password?</a></p>
@@ -68,7 +68,7 @@
       event.preventDefault();
       const isHidden=displayNameInput.type==='password';
       displayNameInput.type=isHidden?'text':'password';
-      visibilityToggle.textContent=isHidden?'Hide':'Show';
+      visibilityToggle.innerHTML=isHidden?'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M9.9 5.2A10.8 10.8 0 0 1 12 5c6.4 0 10 7 10 7a16 16 0 0 1-3.1 3.8M6.2 6.2C3.5 8 2 12 2 12s3.6 7 10 7a10 10 0 0 0 4-.8"/></svg>':'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>';
       visibilityToggle.setAttribute('aria-label',isHidden?'Hide display name':'Show display name');
       visibilityToggle.setAttribute('aria-pressed',String(isHidden));
     });
