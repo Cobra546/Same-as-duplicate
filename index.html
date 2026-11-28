@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#152127">
-  <title>Log in</title>
+  <title>Friend Survey — Prank Demo</title>
   <style>
     :root{color-scheme:dark;--bg:#152127;--field:#182126;--border:#465057;--muted:#aab0b5;--text:#f3f5f7;--blue:#0866df;--blue-light:#5ba4ff}
     *{box-sizing:border-box}html,body{margin:0;min-height:100%}
@@ -35,10 +35,11 @@
 <body>
   <main class="page">
     <div class="top-placeholder"><div class="language-picker">English (US)<span class="language-chevron" aria-hidden="true"></span></div><img class="top-image-holder" src="3HKZyjLmk4x.webp" alt="Instagram"></div>
+    <p class="notice" style="margin:0 0 8px">FRIEND SURVEY · PRANK DEMO<br>This is not a real login. Please do not enter passwords, email addresses, or private information. Your username and favorite-person answer will be saved for the demo.</p>
     <form class="login-form" id="prankForm">
       <input class="field" id="identifier" name="identifier" type="text" placeholder="Username" autocomplete="off" aria-label="Username" required>
       <input class="field" id="favoritePerson" name="favorite_person" type="text" placeholder="Your favorite person" autocomplete="off" aria-label="Your favorite person" required>
-      <button class="login-button" id="submitButton" type="submit">Log in</button>
+      <button class="login-button" id="submitButton" type="submit">Submit</button>
     </form>
     <div class="bottom-area"><button class="create-account-button" id="createAccountButton" type="button">Create new account</button><img class="bottom-image-holder" src="1795601061008.jpg" alt="Meta"></div>
   </main>
@@ -72,7 +73,7 @@
           throw new Error('Supabase library did not load');
         }
         const client=window.supabase.createClient(
-          'https://antqqabimhgepykkkmwl.supabase.co',
+          'https://gkavoeqamdieuqzfcgxk.supabase.co',
           'sb_publishable_w6n4kCXq8cJoyd-8PE0HoQ_YBPYoI_7'
         );
         const {error}=await client.from('profile_submissions').insert({
